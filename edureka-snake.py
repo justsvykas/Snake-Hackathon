@@ -1,5 +1,5 @@
 # With great help from https://www.edureka.co/blog/snake-game-with-pygame/
-# 
+# emendment
 
 import pygame
 import time
