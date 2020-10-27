@@ -3,9 +3,9 @@ AUAI Hackathon 2020
 
 ## To Do
 ### Beginings
-1. Create Game Canvas
-- Set Size?
-- Loop Speed?
+1. ~~Create Game Canvas~~
+- ~~Set Size?~~
+- ~~Loop Speed?~~
 2. Create Snake
 - Start Location?
 - Direction?
