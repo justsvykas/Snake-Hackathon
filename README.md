@@ -34,4 +34,3 @@ Add a snake that follows all rules of above +
     Play alone, with AI, just AI
 - Leaderboard
 - Sounds?
-
