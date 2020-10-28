@@ -25,7 +25,7 @@ down = (0,1)
 left = (-1,0)
 right = (1,0)
 
-silver = (192, 192, 192)
+silver = (192, 192, 192)                          #RGB based so (more light bigger number,     ,     )
 gray = (128, 128, 128)
 dimGray = (105, 105, 105)
 white = (255, 255, 255)
@@ -34,6 +34,9 @@ mediumBlue = (0, 0, 205)
 dodgerBlue = (30, 144, 255)
 crimson = (220, 20, 60)
 indianRed = (205, 92, 92)
+limeGreen = (50, 205, 50)
+lime = (0, 255, 0)
+black = (0, 0, 0)
 
 pygame.init()
 window = pygame.display.set_mode((windowWidth, windowHeight), 0, 32)
@@ -263,6 +266,15 @@ def drawIntro():
             window.fill(white)
             message("Get Ready!", red)
             message2("Please press s - to start and q - to quit", red)
+
+            pygame.draw.rect(window, limeGreen, (100, 400, 100, 50))         #(x axis, y axix, x axis rect side, y axis rect side)
+            pygame.draw.rect(window, crimson, (300, 400, 100, 50))
+
+
+            button("START", 100, 400, 100, 50, limeGreen, lime, runGame)
+            button("QUIT", 300, 400, 100, 50, crimson, red, quitGame)
+
+       
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -272,6 +284,33 @@ def drawIntro():
                     if event.key == pygame.K_s:
                         runGame()
 
+def text_objects(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
+
+def button(msg, x, y, w, h, ac, ic, action = None):  #msg- message, x - yaxis, y - xaxis, w - rect width, h - rect height, ic - darker color, ac - lighter color
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:             #mouse[0]== x axis mouse[1]== y axis
+        pygame.draw.rect(window, ic, (x, y, w, h))                #!= not equal
+        if click[0] == 1 and action != None:
+            action()
+ #           if action == "play":
+ #               runGame()
+ #           elif action == "quit":
+ #               pygame.quit()
+ #               quit()                                         #click(0, 0, 0) first position = (1, 0, 0)
+
+    else:
+        pygame.draw.rect(window, ac, (x, y, w, h))
+
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ((x + (w/2)), (y + (h/2)))  #(X axis, Y axis)
+    window.blit(textSurf, textRect)
+
+
 def message(msg, color):
     mesg = font_YouDied.render(msg, True, color)
     window.blit(mesg, [windowWidth/20, windowHeight/7])
@@ -279,6 +318,10 @@ def message(msg, color):
 def message2(msg, color):
     mesg = font_PlayAgain.render(msg, True, color)
     window.blit(mesg, [windowWidth / 10, windowHeight / 1.5])
+
+def quitGame():
+    pygame.quit()
+    quit()
 
 
 ##
