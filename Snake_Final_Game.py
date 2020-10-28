@@ -49,7 +49,7 @@ class HumanSnake():
     def __init__(self):
         self.length = 1
         self.positions = [((windowWidth * 0.6), (windowHeight * 0.4))]    #starts slight right
-        self.direction = random.choice([up, down, right])         #points in random direction
+        self.direction = random.choice([up, down, right])                 #points in random direction
         self.color = indianRed
         self.score = 0
         
@@ -80,7 +80,6 @@ class HumanSnake():
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_q:
-                            #gameClose = True
                             pygame.quit
                             sys.exit()
                         if event.key == pygame.K_m:
@@ -100,7 +99,7 @@ class HumanSnake():
         for p in self.positions:
             r = pygame.Rect((p[0], p[1]), (gridsize, gridsize))
             pygame.draw.rect(surface, self.color, r)               #we will draw rect of snake head
-            pygame.draw.rect(surface, crimson, r, 2)        #draw the rest of body
+            pygame.draw.rect(surface, crimson, r, 2)               #draw the rest of body
 
     def handle_keys(self):
         for event in pygame.event.get():
@@ -124,7 +123,7 @@ class AISnake():
     def __init__(self):
         self.length = 1
         self.positions = [((windowWidth * 0.4), (windowHeight * 0.4))]    #starts slight left 
-        self.direction = random.choice([up, down, left])         #points in random direction
+        self.direction = random.choice([up, down, left])                  #points in random direction
         self.color = dodgerBlue
         self.score = 0
         
@@ -137,14 +136,11 @@ class AISnake():
         else:
             self.direction = point
         
-
-    
     def move(self,hS):
         cur = self.get_head_position()  
-        x, y = self.direction             #current direction of a snake
+        x, y = self.direction                                                                        #current direction of a snake
         new = (((cur[0] + (x * gridsize)) % windowWidth), (cur[1] + (y * gridsize)) % windowHeight)  #new position of snake
-        if (len(self.positions) > 2 and new in self.positions[2:]) or new in hS: #if snake touches a snake game over
-            #self.reset()
+        if (len(self.positions) > 2 and new in self.positions[2:]) or new in hS:                     #if snake touches a snake game over
             gameover = True
             while(gameover == True):
                 window.fill(black)
@@ -159,50 +155,50 @@ class AISnake():
                         if event.key == pygame.K_m:
                             drawIntro()
         else:
-            self.positions.insert(0, new)             #else we will reposition snake
+            self.positions.insert(0, new)                                  #else we will reposition snake
             if len(self.positions) > self.length:
                 self.positions.pop()                  
 
-    def reset(self):                                              #this is where we should write game over screen
+    def reset(self):                                                       #this is where we should write game over screen
         self.length = 1
-        self.positions = [((windowWidth * 0.4), (windowHeight * 0.4))]    #starts slight left 
-        self.direction = random.choice([up, down, left])         #points in random direction\
+        self.positions = [((windowWidth * 0.4), (windowHeight * 0.4))]     #starts slight left 
+        self.direction = random.choice([up, down, left])                   #points in random direction\
         self.score = 0
 
     def draw(self, surface):
         for p in self.positions:
             r = pygame.Rect((p[0], p[1]), (gridsize, gridsize))
-            pygame.draw.rect(surface, self.color, r)               #we will draw rect of snake head
-            pygame.draw.rect(surface, mediumBlue, r, 2)        #draw the rest of body
+            pygame.draw.rect(surface, self.color, r)                       #we will draw rect of snake head
+            pygame.draw.rect(surface, mediumBlue, r, 2)                    #draw the rest of body
     
     def aiSnakeController(self,hS,pi):
-        aiHeadX, aiHeadY = self.get_head_position() #Assign coordinates for ai head
-        piX, piY = pi #Assign coordinates for Pie
+        aiHeadX, aiHeadY = self.get_head_position()                        #Assign coordinates for ai head
+        piX, piY = pi                                                      #Assign coordinates for Pie
 
         disX = aiHeadX - piX #Distance to Pie on x axis, pos int left, neg int right
         disY = aiHeadY - piY #Distance to Pie on y axis, pos int up, neg int down
 
         #Set direction priority list for snake
-        if (disY >= 0) and (disX <= 0): #If Pie is NE of Snake
-            if abs(disY) > abs(disX): #If more north than east
+        if (disY >= 0) and (disX <= 0):                      #If Pie is NE of Snake
+            if abs(disY) > abs(disX):                        #If more north than east
                 directionPriority = [up, right, left, down]
             else:
                 directionPriority = [right, up, down, left]
 
-        elif (disY <= 0) and (disX <= 0): #If Pie is SE of Snake
-            if abs(disY) > abs(disX): #If more south than east
+        elif (disY <= 0) and (disX <= 0):                    #If Pie is SE of Snake
+            if abs(disY) > abs(disX):                        #If more south than east
                 directionPriority = [down, right, left, up]
             else:
                 directionPriority = [right, down, up, left]
 
-        elif (disY <= 0) and (disX >= 0): #If Pie is SW of Snake
-            if abs(disY) > abs(disX): #If more south than west
+        elif (disY <= 0) and (disX >= 0):                    #If Pie is SW of Snake
+            if abs(disY) > abs(disX):                        #If more south than west
                 directionPriority = [down, left, right, up]
             else:
                 directionPriority = [left, down, up, right]
 
-        elif (disY >= 0) and (disX >= 0): #If Pie is NW of Snake
-            if abs(disY) > abs(disX): #If more north than west
+        elif (disY >= 0) and (disX >= 0):                    #If Pie is NW of Snake
+            if abs(disY) > abs(disX):                        #If more north than west
                 directionPriority = [up, left, right, down]
             else:
                 directionPriority = [left, down, up, right]
@@ -224,11 +220,11 @@ class Pie():
         self.randomize_position((0,0),(0,0))
 
     def randomize_position(self, hS, aiS):
-        while (self.position == (0, 0)) or (self.position in hS) or (self.position in aiS): #Position food till its not in a snake
+        while (self.position == (0, 0)) or (self.position in hS) or (self.position in aiS):                                #Position food till its not in a snake
             self.position = (random.randint(0, grid_width - 1) * gridsize, random.randint(0, grid_height - 1) * gridsize)  #randomly position food
 
     def draw(self, surface):
-        r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))   #draw a rect of food in randomized position
+        r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))                                        #draw a rect of food in randomized position
         pygame.draw.rect(surface, self.color, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 2)
 
@@ -238,7 +234,7 @@ def drawGrid(surface):
         for x in range(0, int(grid_width)):
             if(x + y) % 2 == 0:
                 r = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))     
-                pygame.draw.rect(surface, gray, r)                           #Draws a rect on even coordinates
+                pygame.draw.rect(surface, gray, r)                              #Draws a rect on even coordinates
             else:
                 rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, dimGray, rr)                          #Draws even darker rect on odd coordinates
@@ -256,10 +252,9 @@ def drawIntro():
         gameover = True
         while(gameover == True):
             window.fill(beige)
-            message("Get Ready!", red)
-            #message2("MENU", red)         #(x axis, y axix, x axis rect side, y axis rect side)
+            message("Get Ready!", red)       
 
-            button("AI vs Hu", 180, 200, 150, 40, limeGreen, lime, "B")
+            button("AI vs Hu", 180, 200, 150, 40, limeGreen, lime, "B")   #(x axis, y axix, x axis rect side, y axis rect side)
             button("Watch AI", 180, 270, 150, 40, limeGreen, lime, "A")
             button("Just Hu", 180, 350, 150, 40, limeGreen, lime, "H")
             button("QUIT", 180, 420, 150, 40, crimson, red, "Q")
@@ -277,13 +272,12 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
-def button(msg, x, y, w, h, ac, ic, action = None):  #msg- message, x - yaxis, y - xaxis, w - rect width, h - rect height, ic - darker color, ac - lighter color
+def button(msg, x, y, w, h, ac, ic, action = None):    #msg- message, x - yaxis, y - xaxis, w - rect width, h - rect height, ic - darker color, ac - lighter color
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-
-    if x + w > mouse[0] > x and y + h > mouse[1] > y:             #mouse[0]== x axis mouse[1]== y axis
-        pygame.draw.rect(window, ic, (x, y, w, h))                #!= not equal
-        if click[0] == 1 and action == "B":
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:  #mouse[0]== x axis mouse[1]== y axis
+        pygame.draw.rect(window, ic, (x, y, w, h))              
+        if click[0] == 1 and action == "B":            #click(0, 0, 0) first position = (1, 0, 0)
             runGame(action)
         elif click[0] == 1 and action == "A":
             runGame(action)
@@ -291,15 +285,12 @@ def button(msg, x, y, w, h, ac, ic, action = None):  #msg- message, x - yaxis, y
             runGame(action)
         elif click[0] == 1 and action == "Q":
             quitGame()
-                                                           #click(0, 0, 0) first position = (1, 0, 0)
     else:
         pygame.draw.rect(window, ac, (x, y, w, h))
-
     smallText = pygame.font.Font("freesansbold.ttf", 20)
     textSurf, textRect = text_objects(msg, smallText)
-    textRect.center = ((x + (w/2)), (y + (h/2)))  #(X axis, Y axis)
+    textRect.center = ((x + (w/2)), (y + (h/2)))       #(X axis, Y axis)
     window.blit(textSurf, textRect)
-
 
 def message(msg, color):
     mesg = font_YouDied.render(msg, True, color)
@@ -308,11 +299,10 @@ def message(msg, color):
 def message2(msg, color):
     mesg = font_PlayAgain.render(msg, True, color)
     window.blit(mesg, [windowWidth / 20, windowHeight / 1.5])
-
+    
 def quitGame():
     pygame.quit()
     quit()
-
 
 ##
 # The game
