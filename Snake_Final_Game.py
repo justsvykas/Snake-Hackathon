@@ -9,12 +9,13 @@
 import pygame
 import random
 import sys
+from AI_Snake_Function import aiSnakeController
 
 ##
 # Variables
 ticksPerTurn = 10
-windowWidth = 480
-windowHeight = 480
+windowWidth = 500
+windowHeight = 500
 
 gridsize = 20                                     #rect size
 grid_width = windowWidth / gridsize              #number of rect on x axis
@@ -36,11 +37,9 @@ font_style = pygame.font.SysFont(None, 30)
 class HumanSnake():
     def __init__(self):
         self.length = 1
-        self.positions = [((windowWidth / 2), (windowHeight / 2))]    #starts in the center
-        self.direction = random.choice([up, down, left, right])         #points in random direction
+        self.positions = [((windowWidth * 0.6), (windowHeight * 0.4))]    #starts slight right
+        self.direction = random.choice([up, down, right])         #points in random direction
         self.color = (17, 24, 47)
-        # Special thanks to YouTubers Mini - Cafetos and Knivens Beast for raising this issue!
-        # Code adjustment courtesy of YouTuber Elija de Hoog
         self.score = 0
         
     def get_head_position(self):
@@ -109,7 +108,61 @@ class HumanSnake():
 ##
 # The AI snake
 class aiSnake():
-    pass
+    def __init__(self):
+        self.length = 1
+        self.positions = [((windowWidth * 0.4), (windowHeight * 0.4))]    #starts slight left 
+        self.direction = random.choice([up, down, left])         #points in random direction
+        self.color = (17, 24, 47)
+        self.score = 0
+        
+    def get_head_position(self):
+        return self.positions[0]           #updates where the snake is
+
+    def turn(self, point):
+        if self.length > 1 and (point[0]*-1, point[1]*-1) == self.direction:      #if snake length is more than 1 it can go just in 3 directions 
+            return
+        else:
+            self.direction = point
+        
+
+    
+    def move(self):
+        cur = self.get_head_position()  
+        x, y = self.direction             #current direction of a snake
+        new = (((cur[0] + (x * gridsize)) % windowWidth), (cur[1] + (y * gridsize)) % windowHeight)  #new position of snake
+        if len(self.positions) > 2 and new in self.positions[2:]:      #if snake touches itself gameover
+            #self.reset()
+            gameover = True
+            while(gameover == True):
+                window.fill(white)
+                message("You Lost! Press Q-Quit or C-Play Again", red)
+                pygame.display.update()
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_q:
+                            #gameClose = True
+                            pygame.quit
+                            sys.exit()
+                        if event.key == pygame.K_c:
+                            runGame()
+        else:
+            self.positions.insert(0, new)             #else we will reposition snake
+            if len(self.positions) > self.length:
+                self.positions.pop()                  
+
+    def reset(self):                                              #this is where we should write game over screen
+        self.length = 1
+        self.position = [((windowWidth / 2), (windowHeight / 2))]
+        self.direction = random.choice([up, down, left, right])
+        self.score = 0
+
+    def draw(self, surface):
+        for p in self.positions:
+            r = pygame.Rect((p[0], p[1]), (gridsize, gridsize))
+            pygame.draw.rect(surface, self.color, r)               #we will draw rect of snake head
+            pygame.draw.rect(surface, (93, 216, 228), r, 1)        #draw the rest of body
+
+
 
 ##
 # The food (Pie)
