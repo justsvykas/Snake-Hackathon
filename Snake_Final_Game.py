@@ -73,7 +73,7 @@ class HumanSnake():
                 surfaceLocal = pygame.Surface(window.get_size())
                 surfaceLocal = surfaceLocal.convert()
                 window.fill(white)
-                drawMeniu(surfaceLocal)
+                #drawMeniu(surfaceLocal)
                 message("YOU DIED!", red)
                 message2("Please press q - to quit c - to try again", red)
                 pygame.display.update()
