@@ -25,8 +25,16 @@ down = (0,1)
 left = (-1,0)
 right = (1,0)
 
+silver = (192, 192, 192)
+gray = (128, 128, 128)
+dimGray = (105, 105, 105)
 white = (255, 255, 255)
 red = (255, 0, 0)
+mediumBlue = (0, 0, 205)
+dodgerBlue = (30, 144, 255)
+crimson = (220, 20, 60)
+indianRed = (205, 92, 92)
+
 pygame.init()
 window = pygame.display.set_mode((windowWidth, windowHeight), 0, 32)
 font_YouDied = pygame.font.SysFont('Helvetica', 110)
@@ -38,7 +46,7 @@ class HumanSnake():
         self.length = 1
         self.positions = [((windowWidth * 0.6), (windowHeight * 0.4))]    #starts slight right
         self.direction = random.choice([up, down, right])         #points in random direction
-        self.color = (17, 24, 47)
+        self.color = indianRed
         self.score = 0
         
     def get_head_position(self):
@@ -89,7 +97,7 @@ class HumanSnake():
         for p in self.positions:
             r = pygame.Rect((p[0], p[1]), (gridsize, gridsize))
             pygame.draw.rect(surface, self.color, r)               #we will draw rect of snake head
-            pygame.draw.rect(surface, (93, 216, 228), r, 1)        #draw the rest of body
+            pygame.draw.rect(surface, crimson, r, 2)        #draw the rest of body
 
     def handle_keys(self):
         for event in pygame.event.get():
@@ -114,7 +122,7 @@ class AISnake():
         self.length = 1
         self.positions = [((windowWidth * 0.4), (windowHeight * 0.4))]    #starts slight left 
         self.direction = random.choice([up, down, left])         #points in random direction
-        self.color = (17, 24, 47)
+        self.color = dodgerBlue
         self.score = 0
         
     def get_head_position(self):
@@ -162,7 +170,7 @@ class AISnake():
         for p in self.positions:
             r = pygame.Rect((p[0], p[1]), (gridsize, gridsize))
             pygame.draw.rect(surface, self.color, r)               #we will draw rect of snake head
-            pygame.draw.rect(surface, (93, 216, 228), r, 1)        #draw the rest of body
+            pygame.draw.rect(surface, mediumBlue, r, 2)        #draw the rest of body
     
     def aiSnakeController(self,hS,pi):
         aiHeadX, aiHeadY = self.get_head_position() #Assign coordinates for ai head
@@ -218,7 +226,7 @@ class Pie():
     def draw(self, surface):
         r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))   #draw a rect of food in randomized position
         pygame.draw.rect(surface, self.color, r)
-        pygame.draw.rect(surface, (93, 216, 228), r, 1)
+        pygame.draw.rect(surface, (93, 216, 228), r, 2)
 
 
 def drawGrid(surface):
@@ -226,10 +234,10 @@ def drawGrid(surface):
         for x in range(0, int(grid_width)):
             if(x + y) % 2 == 0:
                 r = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))     
-                pygame.draw.rect(surface, (93, 216, 228), r)                           #Draws a rect on even coordinates
+                pygame.draw.rect(surface, gray, r)                           #Draws a rect on even coordinates
             else:
                 rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
-                pygame.draw.rect(surface, (84, 194, 205), rr)                          #Draws even darker rect on odd coordinates
+                pygame.draw.rect(surface, dimGray, rr)                          #Draws even darker rect on odd coordinates
 
 def drawMeniu(surface):
     for y in range(0, int(grid_height)):
