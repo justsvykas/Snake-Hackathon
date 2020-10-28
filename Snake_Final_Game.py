@@ -60,11 +60,11 @@ class HumanSnake():
         
 
     
-    def move(self):
+    def move(self, aiS):
         cur = self.get_head_position()  
         x, y = self.direction                                                                        #current direction of a snake
         new = (((cur[0] + (x * gridsize)) % windowWidth), (cur[1] + (y * gridsize)) % windowHeight)  #new position of snake
-        if len(self.positions) > 2 and new in self.positions[2:]:                                    #if snake touches itself gameover
+        if (len(self.positions) > 2 and new in self.positions[2:]) or new in aiS: #if snake touches a snake game over
             gameover = True
             while(gameover == True):
                 surfaceLocal = pygame.Surface(window.get_size())
@@ -136,11 +136,12 @@ class AISnake():
         
 
     
-    def move(self):
+    def move(self,hS):
         cur = self.get_head_position()  
         x, y = self.direction             #current direction of a snake
         new = (((cur[0] + (x * gridsize)) % windowWidth), (cur[1] + (y * gridsize)) % windowHeight)  #new position of snake
-        if len(self.positions) > 2 and new in self.positions[2:]:      #if snake touches itself gameover
+        if (len(self.positions) > 2 and new in self.positions[2:]) or new in hS: #if snake touches a snake game over
+            #self.reset()
             gameover = True
             while(gameover == True):
                 window.fill(white)
@@ -310,11 +311,11 @@ def runGame():
         drawGrid(surface)                  
 
         #Move Snake
-        humanSnake.move()
+        humanSnake.move(aiSnake.positions)
 
         #Ask the AI which way to go and move the AI Snake (Second to give the human the advantage)
         aiSnake.aiSnakeController(humanSnake.positions,pie.position)
-        aiSnake.move()
+        aiSnake.move(humanSnake.positions)
 
         #If snake head is in food make the snake longer and respawn the food
         if humanSnake.get_head_position() == pie.position:
