@@ -218,10 +218,11 @@ class Pie():
     def __init__(self):
         self.position = (0, 0)
         self.color = (223, 163, 49)
-        self.randomize_position()
+        self.randomize_position((0,0),(0,0))
 
-    def randomize_position(self):
-        self.position = (random.randint(0, grid_width - 1) * gridsize, random.randint(0, grid_height - 1) * gridsize)  #randomly position food
+    def randomize_position(self, hS, aiS):
+        while (self.position == (0, 0)) or (self.position in hS) or (self.position in aiS): #Position food till its not in a snake
+            self.position = (random.randint(0, grid_width - 1) * gridsize, random.randint(0, grid_height - 1) * gridsize)  #randomly position food
 
     def draw(self, surface):
         r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))   #draw a rect of food in randomized position
@@ -321,12 +322,12 @@ def runGame():
         if humanSnake.get_head_position() == pie.position:
             humanSnake.length += 1
             humanSnake.score += 1
-            pie.randomize_position()
+            pie.randomize_position(humanSnake.positions,aiSnake.positions)
         
         elif aiSnake.get_head_position() == pie.position:
             aiSnake.length += 1
             aiSnake.score += 1
-            pie.randomize_position()
+            pie.randomize_position(humanSnake.positions,aiSnake.positions)
 
         #If snake head is in wall or self end the game
         
