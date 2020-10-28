@@ -284,18 +284,24 @@ def message2(msg, color):
 
 ##
 # The game
-def runGame():
+def runGame(gMode="B"): #Gamemode "B"oth, "A"i, or "H"uman
+
     clock = pygame.time.Clock()                          #Used to keep game time
 
     surface = pygame.Surface(window.get_size())
     surface = surface.convert()
-
-    gameover = False
     
     drawGrid(surface)                         
-    
+ 
     aiSnake = AISnake()
     humanSnake = HumanSnake()                            #humanSake class obj
+
+    if gMode == "A": #If AI
+        humanSnake.positions = (-100, -100)
+
+    if gMode == "H": #If Human
+        aiSnake.positions = (-100, -100)
+    
     pie = Pie()                                          #Pie class obj
 
     myfont = pygame.font.SysFont("monospace", 16)        #introduce kind of text
@@ -304,37 +310,36 @@ def runGame():
         
         #Hold the loop for so many ticks
         clock.tick(ticksPerTurn)
-        
-        #Get users key stroke
-        humanSnake.handle_keys() 
 
         #Repaint the window so it would be clear of previous snake movements
-        drawGrid(surface)                  
+        drawGrid(surface) 
 
-        #Move Snake
-        humanSnake.move(aiSnake.positions)
+        #Human key input incase of exit
+        humanSnake.handle_keys()
 
-        #Ask the AI which way to go and move the AI Snake (Second to give the human the advantage)
-        aiSnake.aiSnakeController(humanSnake.positions,pie.position)
-        aiSnake.move(humanSnake.positions)
+        if gMode == "H" or gMode == "B": #If Human
+            #Get users key stroke and move the snake
+            humanSnake.move(aiSnake.positions)
+            #Draw snake
+            humanSnake.draw(surface)
+                 
+        if gMode == "A" or gMode == "B": #If AI
+            #Ask the AI which way to go and move the AI Snake (Second to give the human the advantage)
+            aiSnake.aiSnakeController(humanSnake.positions,pie.position)
+            aiSnake.move(humanSnake.positions)
+            #Draw snake
+            aiSnake.draw(surface)
 
         #If snake head is in food make the snake longer and respawn the food
-        if humanSnake.get_head_position() == pie.position:
+        if (gMode == "H" or gMode == "B") and humanSnake.get_head_position() == pie.position: #Human
             humanSnake.length += 1
             humanSnake.score += 1
             pie.randomize_position(humanSnake.positions,aiSnake.positions)
         
-        elif aiSnake.get_head_position() == pie.position:
+        elif (gMode == "A" or gMode == "B") and aiSnake.get_head_position() == pie.position: #AI
             aiSnake.length += 1
             aiSnake.score += 1
             pie.randomize_position(humanSnake.positions,aiSnake.positions)
-
-        #If snake head is in wall or self end the game
-        
-
-        #Draw snake
-        humanSnake.draw(surface)
-        aiSnake.draw(surface)
 
         #Draw food
         pie.draw(surface)
@@ -343,11 +348,10 @@ def runGame():
         window.blit(surface, (0, 0))
 
         #Create text of score
-        text = myfont.render("Score {0}".format(humanSnake.score), 1, (0, 0, 0))  
+        text = myfont.render("Your Score {0} | AI Score {1}".format(humanSnake.score,aiSnake.score), 1, (0, 0, 0))  
         window.blit(text, (5, 10))
 
         #Update the display
         pygame.display.update()
     
 drawIntro()
-runGame()
