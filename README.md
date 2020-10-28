@@ -6,10 +6,10 @@ AUAI Hackathon 2020
 1. ~~Create Game Canvas~~
 - ~~Set Size?~~
 - ~~Loop Speed?~~
-2. Create Snake
-- Start Location?
-- Direction?
-- Allow user control (log input and check last key on each loop?)
+2. ~~Create Snake~~
+- ~~Start Location?~~
+- ~~Direction?~~
+- ~~Allow user control (log input and check last key on each loop?)~~
 ### Add Food and maybe points?
 1. Add random generated food block
 2. When snake head in in same block as food regenerate another food block
