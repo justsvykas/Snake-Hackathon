@@ -143,7 +143,6 @@ class AISnake():
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_q:
-                            #gameClose = True
                             pygame.quit
                             sys.exit()
                         if event.key == pygame.K_c:
@@ -251,11 +250,19 @@ def drawIntro():
                 pygame.quit()
                 quit()
 
-    window.fill(white)
-    message("Get Ready to fight against AI!", red)
-
-
-
+        gameover = True
+        while(gameover == True):
+            window.fill(white)
+            message("Get Ready!", red)
+            message2("Please press s - to start and q - to quit", red)
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        pygame.quit
+                        sys.exit()
+                    if event.key == pygame.K_s:
+                        runGame()
 
 def message(msg, color):
     mesg = font_YouDied.render(msg, True, color)
@@ -333,5 +340,5 @@ def runGame():
         #Update the display
         pygame.display.update()
     
-
+drawIntro()
 runGame()
