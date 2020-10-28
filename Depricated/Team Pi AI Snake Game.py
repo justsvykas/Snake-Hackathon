@@ -8,7 +8,6 @@
 # Imports
 import pygame
 import random
-from AI_Snake_Function import aiSnakeController
 
 ##
 # Variables
@@ -71,14 +70,18 @@ class humanSnake():
 
     def checkKeyPress(self):
         for event in pygame.event.get(): #For events in the last clock cycle
-            if event.key == pygame.K_UP:
-                self.turn(up)
-            elif event.key == pygame.K_DOWN:
-                self.turn(down)
-            elif event.key == pygame.K_LEFT:
-                self.turn(left)
-            elif event.key == pygame.K_RIGHT:
-                self.turn(right)
+            if event.type == pygame.QUIT: #player quits
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.turn(up)
+                elif event.key == pygame.K_DOWN:
+                    self.turn(down)
+                elif event.key == pygame.K_LEFT:
+                    self.turn(left)
+                elif event.key == pygame.K_RIGHT:
+                    self.turn(right)
 
 ##
 # The AI Snake
@@ -110,7 +113,6 @@ class aiSnake():
             if len(self.pos) > self.length: #If the snake is longer than it should be pop off the tail
                 self.pos.pop()
 
-
     def reset(self):
         self.length = 1 #Set start length as 1
         self.pos = [((windowWidth * 0.5), (windowHeight * 0.5))] #Reset pos to the middle
@@ -120,6 +122,46 @@ class aiSnake():
        for p in self.pos: #Run for each possition of the snake
            r = pygame.Rect( (p[0], p[1]), (gridSqSize, gridSqSize) ) #Create a square in position
            pygame.draw.rect(surface, self.colour, r) #Draw that square on the surface
+
+    def aiSnakeController(self,hS,pi):
+        aiHeadX, aiHeadY = self.getHeadPos() #Assign coordinates for ai head
+        piX, piY = pi #Assign coordinates for Pie
+
+        disX = aiHeadX - piX #Distance to Pie on x axis, pos int left, neg int right
+        disY = aiHeadY - piY #Distance to Pie on y axis, pos int up, neg int down
+
+        #Set direction priority list for snake
+        if (disY >= 0) and (disX <= 0): #If Pie is NE of Snake
+            if abs(disY) > abs(disX): #If more north than east
+                directionPriority = [up, right, left, down]
+            else:
+                directionPriority = [right, up, down, left]
+
+        elif (disY <= 0) and (disX <= 0): #If Pie is SE of Snake
+            if abs(disY) > abs(disX): #If more south than east
+                directionPriority = [down, right, left, up]
+            else:
+                directionPriority = [right, down, up, left]
+
+        elif (disY <= 0) and (disX >= 0): #If Pie is SW of Snake
+            if abs(disY) > abs(disX): #If more south than west
+                directionPriority = [down, left, right, up]
+            else:
+                directionPriority = [left, down, up, right]
+
+        elif (disY >= 0) and (disX >= 0): #If Pie is NW of Snake
+            if abs(disY) > abs(disX): #If more north than west
+                directionPriority = [up, left, right, down]
+            else:
+                directionPriority = [left, down, up, right]
+
+        #check direction priorities for the first that doesn't collide
+        for i in range(4):
+            x, y = directionPriority[i]
+            newHead = ( ((aiHeadX+(x*gridSqSize))%windowWidth), ((aiHeadY+(y*gridSqSize))%windowHeight) )  #new position of snake
+            if (newHead not in self.pos) and (newHead not in hS): #if snake doesnt touch itself of other player were good
+                self.turn(directionPriority[i])
+                return
 
 ##
 # The food (Pie)
@@ -152,9 +194,6 @@ aiSnake = aiSnake() #Starts the AI Snake
 pie = pie() #Adds the Pie (has to come after players added, otherwise can't avoid them)
 
 while(True):
-    
-    
-
     #Should hold the loop a division of frames in a decond 10th of a sec etc. 
     clock.tick(fps)
     
@@ -163,7 +202,7 @@ while(True):
     humanSnake.move()
 
     #Ask the AI which way to go and move the AI Snake (Second to give the human the advantage)
-    aiSnake.turn(aiSnakeController(aiSnake.pos,humanSnake.pos,pie.pos))
+    aiSnake.aiSnakeController(humanSnake.pos,pie.pos)
     aiSnake.move()
 
     #If snake head is in food make the snake longer and respawn the food
