@@ -256,7 +256,7 @@ def drawIntro():
 
             button("AI vs Hu", 180, 200, 150, 40, limeGreen, lime, "B")   #(x axis, y axix, x axis rect side, y axis rect side)
             button("Watch AI", 180, 270, 150, 40, limeGreen, lime, "A")
-            button("Just Hu", 180, 350, 150, 40, limeGreen, lime, "H")
+            button("PLAY", 180, 350, 150, 40, limeGreen, lime, "H")
             button("QUIT", 180, 420, 150, 40, crimson, red, "Q")
 
             pygame.display.update()
@@ -299,7 +299,7 @@ def message(msg, color):
 def message2(msg, color):
     mesg = font_PlayAgain.render(msg, True, color)
     window.blit(mesg, [windowWidth / 20, windowHeight / 1.5])
-    
+
 def quitGame():
     pygame.quit()
     quit()
