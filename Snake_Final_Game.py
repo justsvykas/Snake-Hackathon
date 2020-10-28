@@ -78,8 +78,8 @@ class HumanSnake():
 
     def reset(self):                                              #this is where we should write game over screen
         self.length = 1
-        self.position = [((windowWidth / 2), (windowHeight / 2))]
-        self.direction = random.choice([up, down, left, right])
+        self.positions = [((windowWidth * 0.6), (windowHeight * 0.4))]    #starts slight right
+        self.direction = random.choice([up, down, right])         #points in random direction\
         self.score = 0
 
     def draw(self, surface):
@@ -151,8 +151,8 @@ class AISnake():
 
     def reset(self):                                              #this is where we should write game over screen
         self.length = 1
-        self.position = [((windowWidth / 2), (windowHeight / 2))]
-        self.direction = random.choice([up, down, left, right])
+        self.positions = [((windowWidth * 0.4), (windowHeight * 0.4))]    #starts slight left 
+        self.direction = random.choice([up, down, left])         #points in random direction\
         self.score = 0
 
     def draw(self, surface):
@@ -161,8 +161,8 @@ class AISnake():
             pygame.draw.rect(surface, self.color, r)               #we will draw rect of snake head
             pygame.draw.rect(surface, (93, 216, 228), r, 1)        #draw the rest of body
     
-    def aiSnakeController(self,aiS,hS,pi):
-        aiHeadX, aiHeadY = aiS[0] #Assign coordinates for ai head
+    def aiSnakeController(self,hS,pi):
+        aiHeadX, aiHeadY = self.get_head_position() #Assign coordinates for ai head
         piX, piY = pi #Assign coordinates for Pie
 
         disX = aiHeadX - piX #Distance of Pie on x axis, pos int left, neg int right
@@ -233,8 +233,8 @@ def runGame():
     
     drawGrid(surface)                         
     
+    aiSnake = AISnake()                     #AI Snake class obj
     humanSnake = HumanSnake()                       #humanSake class obj
-    # AISnake = AISnake()                     #AI Snake class obj
     pie = Pie()                               #Pie class obj
 
     myfont = pygame.font.SysFont("monospace", 16)  #introduce kind of text
@@ -254,13 +254,18 @@ def runGame():
         humanSnake.move()
 
         #Ask the AI which way to go and move the AI Snake (Second to give the human the advantage)
-        # AISnake.aiSnakeController(aiSnake.positions,humanSnake.position,pie.position)
-        # AISnake.move()
+        aiSnake.aiSnakeController(humanSnake.positions,pie.position)
+        aiSnake.move()
 
         #If snake head is in food make the snake longer and respawn the food
         if humanSnake.get_head_position() == pie.position:
             humanSnake.length += 1
             humanSnake.score += 1
+            pie.randomize_position()
+        
+        elif aiSnake.get_head_position() == pie.position:
+            aiSnake.length += 1
+            aiSnake.score += 1
             pie.randomize_position()
 
         #If snake head is in wall or self end the game
@@ -268,7 +273,7 @@ def runGame():
 
         #Draw snake
         humanSnake.draw(surface)
-        # AISnake.draw(surface)
+        aiSnake.draw(surface)
 
         #Draw food
         pie.draw(surface)
