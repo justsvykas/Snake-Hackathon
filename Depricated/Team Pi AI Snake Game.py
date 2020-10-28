@@ -71,15 +71,14 @@ class humanSnake():
 
     def checkKeyPress(self):
         for event in pygame.event.get(): #For events in the last clock cycle
-            if event.type == pygame.KEYDOWN: #If the user pressed a key
-                if event.key == pygame.K_UP:
-                    self.turn(up)
-                if event.key == pygame.K_DOWN:
-                    self.turn(down)
-                if event.key == pygame.K_LEFT:
-                    self.turn(left)
-                if event.key == pygame.K_RIGHT:
-                    self.turn(right)
+            if event.key == pygame.K_UP:
+                self.turn(up)
+            elif event.key == pygame.K_DOWN:
+                self.turn(down)
+            elif event.key == pygame.K_LEFT:
+                self.turn(left)
+            elif event.key == pygame.K_RIGHT:
+                self.turn(right)
 
 ##
 # The AI Snake

@@ -37,6 +37,7 @@ To add:
  Don't eat own body
  Don't eat other snakes
 
+Could make a set of all squares - list of snakes and food and only let snake enter remainder?
 
 if disX > 0 #Pie West
     if disY > 0 #Pie South West
