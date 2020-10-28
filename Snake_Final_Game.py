@@ -29,8 +29,8 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 pygame.init()
 window = pygame.display.set_mode((windowWidth, windowHeight), 0, 32)
-font_style = pygame.font.SysFont(None, 30)
-
+font_YouDied = pygame.font.SysFont('Helvetica', 110)
+font_PlayAgain = pygame.font.SysFont('Verdana', 20)
 ##
 # The Human Snake
 class HumanSnake():
@@ -63,7 +63,8 @@ class HumanSnake():
                 surfaceLocal = surfaceLocal.convert()
                 window.fill(white)
                 drawMeniu(surfaceLocal)
-                message("You Lost! Press Q-Quit or C-Play Again", red)
+                message("YOU DIED!", red)
+                message2("Please press q - to quit c - to try again", red)
                 pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -136,7 +137,8 @@ class AISnake():
             gameover = True
             while(gameover == True):
                 window.fill(white)
-                message("You Lost! Press Q-Quit or C-Play Again", red)
+                message("YOU WIN!", red)
+                message2("Please press q - to quit c - to try again", red)
                 pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -226,11 +228,28 @@ def drawMeniu(surface):
                 rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, (93, 216, 228), rr)   
 
+def drawIntro():
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+    window.fill(white)
+    message("Get Ready to fight against AI!", red)
+
+
 
 
 def message(msg, color):
-    mesg = font_style.render(msg, True, color)
-    window.blit(mesg, [windowWidth/3, windowHeight/3])
+    mesg = font_YouDied.render(msg, True, color)
+    window.blit(mesg, [windowWidth/20, windowHeight/7])
+
+def message2(msg, color):
+    mesg = font_PlayAgain.render(msg, True, color)
+    window.blit(mesg, [windowWidth / 10, windowHeight / 1.5])
 
 
 ##
