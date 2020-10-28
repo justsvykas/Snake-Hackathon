@@ -37,6 +37,7 @@ indianRed = (205, 92, 92)
 limeGreen = (50, 205, 50)
 lime = (0, 255, 0)
 black = (0, 0, 0)
+beige = (245, 245, 220)
 
 pygame.init()
 window = pygame.display.set_mode((windowWidth, windowHeight), 0, 32)
@@ -72,10 +73,9 @@ class HumanSnake():
             while(gameover == True):
                 surfaceLocal = pygame.Surface(window.get_size())
                 surfaceLocal = surfaceLocal.convert()
-                window.fill(white)
-                #drawMeniu(surfaceLocal)
+                window.fill(black)
                 message("YOU DIED!", red)
-                message2("Please press q - to quit c - to try again", red)
+                message2("Please press q - to quit m - to return to menu", red)
                 pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -83,8 +83,8 @@ class HumanSnake():
                             #gameClose = True
                             pygame.quit
                             sys.exit()
-                        if event.key == pygame.K_c:
-                            runGame()
+                        if event.key == pygame.K_m:
+                            drawIntro()
         else:
             self.positions.insert(0, new)                         #else we will reposition snake
             if len(self.positions) > self.length:
@@ -147,17 +147,17 @@ class AISnake():
             #self.reset()
             gameover = True
             while(gameover == True):
-                window.fill(white)
+                window.fill(black)
                 message("YOU WIN!", red)
-                message2("Please press q - to quit c - to try again", red)
+                message2("Please press q - to quit m - to return to menu", red)
                 pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_q:
                             pygame.quit
                             sys.exit()
-                        if event.key == pygame.K_c:
-                            runGame()
+                        if event.key == pygame.K_m:
+                            drawIntro()
         else:
             self.positions.insert(0, new)             #else we will reposition snake
             if len(self.positions) > self.length:
@@ -243,14 +243,6 @@ def drawGrid(surface):
                 rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, dimGray, rr)                          #Draws even darker rect on odd coordinates
 
-#   for y in range(0, int(grid_height)):
-#        for x in range(0, int(grid_width)):
-#            if(y == 0 or y == grid_width):
-#                r = pygame.Rect((y * gridsize, x * gridsize ), (gridsize, gridsize))
-#                pygame.draw.rect(surface, (93, 216, 228), r)
-#            elif(x == 0 or x == grid_width):
-#                rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
-#                pygame.draw.rect(surface, (93, 216, 228), rr)   
 
 def drawIntro():
     intro = True
@@ -263,7 +255,7 @@ def drawIntro():
 
         gameover = True
         while(gameover == True):
-            window.fill(white)
+            window.fill(beige)
             message("Get Ready!", red)
             #message2("MENU", red)         #(x axis, y axix, x axis rect side, y axis rect side)
 
@@ -315,7 +307,7 @@ def message(msg, color):
 
 def message2(msg, color):
     mesg = font_PlayAgain.render(msg, True, color)
-    window.blit(mesg, [windowWidth / 2, windowHeight / 1.5])
+    window.blit(mesg, [windowWidth / 20, windowHeight / 1.5])
 
 def quitGame():
     pygame.quit()
