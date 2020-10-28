@@ -13,8 +13,9 @@ import random
 # Variables
 bgColour = (0, 0, 0)
 hSnakeColour = (255, 255, 255)
+aiSnakeColour = (0, 150, 50)
 foodColour = (255, 255, 255)
-ticksPerTurn = 10
+fps = 10
 windowWidth = 400
 windowHeight = 300
 gridSqSize = 10 #How large the squares are
@@ -118,8 +119,8 @@ while(True):
     #Refresh the surface to black (This one took me a while to figure out)
     surface.fill(bgColour)
 
-    #Hold the loop for so many ticks
-    clock.tick(ticksPerTurn)
+    #Should hold the loop a division of frames in a decond 10th of a sec etc. 
+    clock.tick(fps)
     
     #Get users key stroke
     humanSnake.checkKeyPress()

@@ -11,14 +11,14 @@ AUAI Hackathon 2020
 - ~~Direction?~~
 - ~~Allow user control (log input and check last key on each loop?)~~
 ### Add Food and maybe points?
-1. Add random generated food block
-2. When snake head in in same block as food regenerate another food block
-3. Tell the snake to be longer when it collides with food (variable for score and snake length?)
-4. Make the food smart so that it doesnt generate in the snake (AI)
+1. ~~Add random generated food block~~
+2. ~~When snake head in in same block as food regenerate another food block~~
+3. ~~Tell the snake to be longer when it collides with food (variable for score and snake length?)~~
+4. ~~Make the food smart so that it doesnt generate in the snake (AI)~~
 ### Spruce up the snake
-1. Dont let the snake go back on its body
-2. Set the snake length acording to its score/ snake length variable from teh food function
-3. End the game if the snake eats itself
+1. ~~Dont let the snake go back on its body~~
+2. ~~Set the snake length acording to its score/ snake length variable from teh food function~~
+3. ~~End the game if the snake eats itself~~
 ### A challenger apears (Snake AI)
 Add a snake that follows all rules of above +
 1. Make simple AI that will probably eat itself first
