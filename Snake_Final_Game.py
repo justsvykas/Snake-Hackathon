@@ -243,15 +243,14 @@ def drawGrid(surface):
                 rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, dimGray, rr)                          #Draws even darker rect on odd coordinates
 
-def drawMeniu(surface):
-    for y in range(0, int(grid_height)):
-        for x in range(0, int(grid_width)):
-            if(y == 0 or y == grid_width):
-                r = pygame.Rect((y * gridsize, x * gridsize ), (gridsize, gridsize))
-                pygame.draw.rect(surface, (93, 216, 228), r)
-            elif(x == 0 or x == grid_width):
-                rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
-                pygame.draw.rect(surface, (93, 216, 228), rr)   
+#   for y in range(0, int(grid_height)):
+#        for x in range(0, int(grid_width)):
+#            if(y == 0 or y == grid_width):
+#                r = pygame.Rect((y * gridsize, x * gridsize ), (gridsize, gridsize))
+#                pygame.draw.rect(surface, (93, 216, 228), r)
+#            elif(x == 0 or x == grid_width):
+#                rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
+#                pygame.draw.rect(surface, (93, 216, 228), rr)   
 
 def drawIntro():
     intro = True
@@ -266,16 +265,13 @@ def drawIntro():
         while(gameover == True):
             window.fill(white)
             message("Get Ready!", red)
-            message2("Please press s - to start and q - to quit", red)
+            #message2("MENU", red)         #(x axis, y axix, x axis rect side, y axis rect side)
 
-            pygame.draw.rect(window, limeGreen, (100, 400, 100, 50))         #(x axis, y axix, x axis rect side, y axis rect side)
-            pygame.draw.rect(window, crimson, (300, 400, 100, 50))
+            button("AI vs Hu", 180, 200, 150, 40, limeGreen, lime, "B")
+            button("Watch AI", 180, 270, 150, 40, limeGreen, lime, "A")
+            button("Just Hu", 180, 350, 150, 40, limeGreen, lime, "H")
+            button("QUIT", 180, 420, 150, 40, crimson, red, "Q")
 
-
-            button("START", 100, 400, 100, 50, limeGreen, lime, runGame)
-            button("QUIT", 300, 400, 100, 50, crimson, red, quitGame)
-
-       
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -295,14 +291,15 @@ def button(msg, x, y, w, h, ac, ic, action = None):  #msg- message, x - yaxis, y
 
     if x + w > mouse[0] > x and y + h > mouse[1] > y:             #mouse[0]== x axis mouse[1]== y axis
         pygame.draw.rect(window, ic, (x, y, w, h))                #!= not equal
-        if click[0] == 1 and action != None:
-            action()
- #           if action == "play":
- #               runGame()
- #           elif action == "quit":
- #               pygame.quit()
- #               quit()                                         #click(0, 0, 0) first position = (1, 0, 0)
-
+        if click[0] == 1 and action == "B":
+            runGame(action)
+        elif click[0] == 1 and action == "A":
+            runGame(action)
+        elif click[0] == 1 and action == "H":
+            runGame(action)
+        elif click[0] == 1 and action == "Q":
+            quitGame()
+                                                           #click(0, 0, 0) first position = (1, 0, 0)
     else:
         pygame.draw.rect(window, ac, (x, y, w, h))
 
@@ -318,7 +315,7 @@ def message(msg, color):
 
 def message2(msg, color):
     mesg = font_PlayAgain.render(msg, True, color)
-    window.blit(mesg, [windowWidth / 10, windowHeight / 1.5])
+    window.blit(mesg, [windowWidth / 2, windowHeight / 1.5])
 
 def quitGame():
     pygame.quit()
