@@ -165,27 +165,41 @@ class AISnake():
         aiHeadX, aiHeadY = self.get_head_position() #Assign coordinates for ai head
         piX, piY = pi #Assign coordinates for Pie
 
-        disX = aiHeadX - piX #Distance of Pie on x axis, pos int left, neg int right
-        disY = aiHeadY - piY #Distance of Pie on y axis, pos int up, neg int down
+        disX = aiHeadX - piX #Distance to Pie on x axis, pos int left, neg int right
+        disY = aiHeadY - piY #Distance to Pie on y axis, pos int up, neg int down
 
-        if disX > 0: #Pie is Left
-            self.turn(left)
-        
-        elif disX < 0: #Pie is Right
-            self.turn(right)
-        
-        else: #Pie is horizontaly alligned
-            if disY < 0: #Pie Down
-                self.turn(down)
-            
-            elif disY > 0: #Pie Up
-                self.turn(up)
-            
-            else: #The Snake is on the Pie
-                print("On the Pie")
-                self.turn(up)
+        #Set direction priority list for snake
+        if (disY >= 0) and (disX <= 0): #If Pie is NE of Snake
+            if abs(disY) > abs(disX): #If more north than east
+                directionPriority = [up, right, left, down]
+            else:
+                directionPriority = [right, up, down, left]
 
+        elif (disY <= 0) and (disX <= 0): #If Pie is SE of Snake
+            if abs(disY) > abs(disX): #If more south than east
+                directionPriority = [down, right, left, up]
+            else:
+                directionPriority = [right, down, up, left]
 
+        elif (disY <= 0) and (disX >= 0): #If Pie is SW of Snake
+            if abs(disY) > abs(disX): #If more south than west
+                directionPriority = [down, left, right, up]
+            else:
+                directionPriority = [left, down, up, right]
+
+        elif (disY >= 0) and (disX >= 0): #If Pie is NW of Snake
+            if abs(disY) > abs(disX): #If more north than west
+                directionPriority = [up, left, right, down]
+            else:
+                directionPriority = [left, down, up, right]
+
+        #check direction priorities for the first that doesn't collide
+        for i in range(4):
+            x, y = directionPriority[i]
+            newHead = (((aiHeadX + (x * gridsize)) % windowWidth), (aiHeadY + (y * gridsize)) % windowHeight)  #new position of snake
+            if (newHead not in self.positions) and (newHead not in hS): #if snake doesnt touch itself of other player were good
+                self.turn(directionPriority[i])
+                return
 
 ##
 # The food (Pie)

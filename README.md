@@ -1,6 +1,6 @@
 # Snake-Hackathon
 AUAI Hackathon 2020
-Requirements: Python3, Pygame
+Requirements: Python3, Pygame 1.9+ 'pip install pygame==1.9.6'
 
 ## To Do
 ### Beginings
@@ -26,8 +26,8 @@ Requirements: Python3, Pygame
  - ~~Find food distance in relation to x,y grid~~
  - Head in direction of longest apsolute value to add human element
  - ~~Reassess every loop~~
-2. Add an AI contingency to not eat itself
-3. Add an AI contingency to not eat any snakes or walls
+2. ~~Add an AI contingency to not eat itself~~
+3. ~~Add an AI contingency to not eat any snakes~~ or walls
 4. Make the AI aware of the size of gaps and to stick to a side for easy exit
 ### Bonuses
 - Show Winner?
