@@ -17,7 +17,7 @@ windowWidth = 480
 windowHeight = 480
 
 gridsize = 20                                     #rect size
-grid_width = windowWidth / gridsize              #number of rect on x axis
+grid_width = windowWidth / gridsize               #number of rect on x axis
 grid_height = windowHeight / gridsize             #number of rect on y axis
 
 up = (0,-1) 
@@ -44,7 +44,7 @@ class HumanSnake():
         self.score = 0
         
     def get_head_position(self):
-        return self.positions[0]           #updates where the snake is
+        return self.positions[0]                                                  #updates where the snake is
 
     def turn(self, point):
         if self.length > 1 and (point[0]*-1, point[1]*-1) == self.direction:      #if snake length is more than 1 it can go just in 3 directions 
@@ -56,13 +56,15 @@ class HumanSnake():
     
     def move(self):
         cur = self.get_head_position()  
-        x, y = self.direction             #current direction of a snake
+        x, y = self.direction                                                                        #current direction of a snake
         new = (((cur[0] + (x * gridsize)) % windowWidth), (cur[1] + (y * gridsize)) % windowHeight)  #new position of snake
-        if len(self.positions) > 2 and new in self.positions[2:]:      #if snake touches itself gameover
-            #self.reset()
+        if len(self.positions) > 2 and new in self.positions[2:]:                                    #if snake touches itself gameover
             gameover = True
             while(gameover == True):
+                surfaceLocal = pygame.Surface(window.get_size())
+                surfaceLocal = surfaceLocal.convert()
                 window.fill(white)
+                drawMeniu(surfaceLocal)
                 message("You Lost! Press Q-Quit or C-Play Again", red)
                 pygame.display.update()
                 for event in pygame.event.get():
@@ -74,7 +76,7 @@ class HumanSnake():
                         if event.key == pygame.K_c:
                             runGame()
         else:
-            self.positions.insert(0, new)             #else we will reposition snake
+            self.positions.insert(0, new)                         #else we will reposition snake
             if len(self.positions) > self.length:
                 self.positions.pop()                  
 
@@ -92,11 +94,11 @@ class HumanSnake():
 
     def handle_keys(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:        #player wants to quit
+            if event.type == pygame.QUIT:                          #player wants to quit
                 pygame.quit()
                 sys.exit()
 
-            elif event.type == pygame.KEYDOWN:        #if player pressed Keys turn snake acordingly
+            elif event.type == pygame.KEYDOWN:                     #if player pressed Keys turn snake acordingly
                 if event.key == pygame.K_UP:
                     self.turn(up)
                 elif event.key == pygame.K_DOWN:
@@ -138,6 +140,18 @@ def drawGrid(surface):
                 rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, (84, 194, 205), rr)                          #Draws even darker rect on odd coordinates
 
+def drawMeniu(surface):
+    for y in range(0, int(grid_height)):
+        for x in range(0, int(grid_width)):
+            if(y == 0 or y == grid_width):
+                r = pygame.Rect((y * gridsize, x * gridsize ), (gridsize, gridsize))
+                pygame.draw.rect(surface, (93, 216, 228), r)
+            elif(x == 0 or x == grid_width):
+                rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
+                pygame.draw.rect(surface, (93, 216, 228), rr)   
+
+
+
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     window.blit(mesg, [windowWidth/3, windowHeight/3])
@@ -146,9 +160,7 @@ def message(msg, color):
 ##
 # The game
 def runGame():
-    #pygame.init() #Activates the pygame Library
-    clock = pygame.time.Clock() #Used to keep game time
-    #window = pygame.display.set_mode((windowWidth, windowHeight), 0, 32)
+    clock = pygame.time.Clock()                          #Used to keep game time
 
     surface = pygame.Surface(window.get_size())
     surface = surface.convert()
@@ -157,10 +169,10 @@ def runGame():
     
     drawGrid(surface)                         
     
-    humanSnake = HumanSnake()                       #humanSake class obj
-    pie = Pie()                               #Pie class obj
+    humanSnake = HumanSnake()                            #humanSake class obj
+    pie = Pie()                                          #Pie class obj
 
-    myfont = pygame.font.SysFont("monospace", 16)  #introduce kind of text
+    myfont = pygame.font.SysFont("monospace", 16)        #introduce kind of text
 
     while(True):
         
