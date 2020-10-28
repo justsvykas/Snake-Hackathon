@@ -20,7 +20,7 @@ AUAI Hackathon 2020
 2. ~~Set the snake length acording to its score/ snake length variable from teh food function~~
 3. ~~End the game if the snake eats itself~~
 ### A challenger apears (Snake AI)
-Add a snake that follows all rules of above +
+~~Add a snake that follows all rules of above +~~ (Isn't controlled yet, but awaits direction)
 1. Make simple AI that will probably eat itself first
     Find food distance in relation to x,y grid
     Head in direction of longest apsolute value to add human element

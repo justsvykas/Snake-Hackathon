@@ -1,1 +1,0 @@
-#The Snake AI to be pulled into the game as a second player
