@@ -9,5 +9,5 @@ A Python recreation of the retro game Snake. Game modes include One Player, Vs A
 
 > python3 Snake_Final_Game.py
 
-![Game Menu Screenshot](https://github.com/lifesbrain/Snake-Hackathon/blob/main/AI%20Test%20Videos/Menu%20Shapshot.png?raw=true"Screenshot of first menu")
+![alt text](https://github.com/lifesbrain/Snake-Hackathon/blob/main/AI%20Test%20Videos/Menu%20Shapshot.png?raw=true "Game Screenshot")
 
