@@ -80,7 +80,7 @@ class HumanSnake():
             if len(self.positions) > self.length:
                 self.positions.pop()                  
 
-    def reset(self):                                              #this is where we should write game over screen
+    def reset(self):                                               #this is where we should write game over screen
         self.length = 1
         self.position = [((windowWidth / 2), (windowHeight / 2))]
         self.direction = random.choice([up, down, left, right])
