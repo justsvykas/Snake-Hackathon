@@ -21,10 +21,10 @@ AUAI Hackathon 2020
 3. ~~End the game if the snake eats itself~~
 ### A challenger apears (Snake AI)
 ~~Add a snake that follows all rules of above +~~ (Isn't controlled yet, but awaits direction)
-1. Make simple AI that will probably eat itself first
-    Find food distance in relation to x,y grid
+1. ~~Make simple AI that will probably eat itself first~~
+    ~~Find food distance in relation to x,y grid~~
     Head in direction of longest apsolute value to add human element
-    Reassess every loop
+    ~~Reassess every loop~~
 2. Add an AI contingency to not eat itself
 3. Add an AI contingency to not eat any snakes or walls
 4. Make the AI aware of the size of gaps and to stick to a side for easy exit

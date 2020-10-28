@@ -131,7 +131,7 @@ class pie():
         self.randomPos()
 
     def randomPos(self):
-        while (self.pos == (0, 0)) or (self.pos in humanSnake.pos): #reposition Pie if in snake or first run (0,0)
+        while (self.pos == (0, 0)) or (self.pos in humanSnake.pos) or (self.pos in aiSnake.pos): #reposition Pie if in either snake or first run (0,0)
             self.pos = ( (random.randint(0, gridWidth-1) * gridSqSize) , (random.randint(0, gridHeight-1) * gridSqSize) ) #Possition somewhere random on the grid
 
     def draw(self, surface):
@@ -168,12 +168,14 @@ while(True):
     aiSnake.move()
 
     #If snake head is in food make the snake longer and respawn the food
-    if humanSnake.getHeadPos() == pie.pos:
-        humanSnake.length += 1
-        pie.randomPos()
-
-    elif aiSnake.getHeadPos() == pie.pos:
+    if aiSnake.getHeadPos() == pie.pos:
+        print("AI Got Pie!")
         aiSnake.length += 1
+        pie.randomPos()
+    
+    if humanSnake.getHeadPos() == pie.pos:
+        print("Human Got Pie!")
+        humanSnake.length += 1
         pie.randomPos()
 
     #If snake head is in wall end the game
