@@ -1,5 +1,5 @@
 #The Snake AI to be pulled into the game as a second player
-'''From the possitions of the AI Snake, the Human Snake, and the Pie
+'''From the possitions of the AI Snake and the Pie
 - The AI will decide whether to return up down left or right '''
 
 up = (0,-1) 
@@ -33,6 +33,11 @@ def aiSnakeController(aiS,hS,pi):
 
 
 '''    
+To add:
+ Don't eat own body
+ Don't eat other snakes
+
+
 if disX > 0 #Pie West
     if disY > 0 #Pie South West
     elif disY < 0 #Pie North West

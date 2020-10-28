@@ -1,5 +1,6 @@
 # Snake-Hackathon
 AUAI Hackathon 2020
+Requirements: Python3, Pygame
 
 ## To Do
 ### Beginings
