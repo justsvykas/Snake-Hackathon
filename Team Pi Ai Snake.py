@@ -29,14 +29,13 @@ right = (1,0)
 ##
 # The Human Snake
 class humanSnake():
-    def __init__(self):
+    def __init__(self): #Initial humansnake() values
         self.length = 1 #Set start length as 1
         self.pos = [((windowWidth * 0.4), (windowHeight * 0.5))] #Set initial position as left of middle
         self.direction = random.choice([up, down, left]) #Set starting direction as any way but right
         self.colour = hSnakeColour
-        self.score = 0
 
-    def get_head_pos(self):
+    def getHeadPos(self):
         return self.pos[0] #Return the the first element in the list of body parts
 
     def turn(self, point):
@@ -46,7 +45,7 @@ class humanSnake():
             self.direction = point
 
     def move(self):
-        headPos = self.get_head_pos() #give headPos the x,y of the head
+        headPos = self.getHeadPos() #give headPos the x,y of the head
         x, y = self.direction #Assign -1, 0, or 1 to x, y
         newHead = ( ((headPos[0]+(x*gridSqSize))%windowWidth), ((headPos[1]+(y*gridSqSize))%windowHeight) )
         if newHead in self.pos: #If the new head will hit the snake
@@ -61,7 +60,6 @@ class humanSnake():
         self.length = 1 #Set start length as 1
         self.pos = [((windowWidth * 0.3), (windowHeight * 0.5))] #Set initial position as left of middle
         self.direction = random.choice([up, down, left]) #Set starting direction as any way but right
-        self.score = 0
 
     def draw(self, surface):
        for p in self.pos: #Run for each possition of the snake
@@ -89,19 +87,21 @@ class aiSnake():
 ##
 # The food (Pie)
 class pie():
-    def __init__(self):
-        self.pos = (0, 0) #Initial food spawn point
+    def __init__(self): #Initial pie() values
+        self.pos = (0, 0)
         self.colour = foodColour
+        self.randomPos()
 
-    def random_pos(self):
-        pass
+    def randomPos(self):
+        while (self.pos == (0, 0)) or (self.pos in humanSnake.pos): #reposition Pie if in snake or first run (0,0)
+            self.pos = ( (random.randint(0, gridWidth-1) * gridSqSize) , (random.randint(0, gridHeight-1) * gridSqSize) ) #Possition somewhere random on the grid
 
     def draw(self, surface):
-        pass
+        r = pygame.Rect( (self.pos[0], self.pos[1]), (gridSqSize, gridSqSize) ) #Create a square in position
+        pygame.draw.rect(surface, self.colour, r) #Draw that square on the surface
 
 ##
 # The game
-
 pygame.init() #Activates the pygame Library
 clock = pygame.time.Clock() #Used to keep game time
 window = pygame.display.set_mode((windowWidth, windowHeight), 0, 32)
@@ -110,9 +110,9 @@ pygame.display.set_caption('Snake by Team Pi')
 surface = pygame.Surface(window.get_size())
 surface = surface.convert()
 
-# pie = pie()
-humanSnake = humanSnake()
+humanSnake = humanSnake() #Starts the Human Snake
 # aiSnake = aiSnake()
+pie = pie() #Adds the Pie (has to come after players added, otherwise can't avoid them)
 
 while(True):
     #Refresh the surface to black (This one took me a while to figure out)
@@ -128,13 +128,16 @@ while(True):
     humanSnake.move()
 
     #If snake head is in food make the snake longer and respawn the food
-    pass
+    if humanSnake.getHeadPos() == pie.pos:
+        humanSnake.length += 1
+        pie.randomPos()
 
-    #If snake head is in wall or self end the game
+    #If snake head is in wall end the game
     pass
 
     #Draw elements
     humanSnake.draw(surface)
+    pie.draw(surface)
 
     #Pin the surface in the window (its the same size so top left corner 0,0)
     window.blit(surface, (0, 0))
